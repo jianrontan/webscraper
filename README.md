@@ -1,2 +1,2 @@
-# webscraper
+# Web Scraper
 Web scraper project
