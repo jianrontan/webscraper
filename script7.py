@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
+from bs4 import BeautifulSoup
 from random import randint
 from scrapycarou.class_names import class_names
 import mysql.connector
@@ -48,17 +49,20 @@ wait = WebDriverWait(driver, 10)
 print(f"{class_names[112]}")
 print(f"{class_names[114]}")
 
-# Scrape the data
-elements_names = driver.find_elements(By.XPATH, f"//p[@class='{class_names[112]}']")
+# Scrape with beautifulsoup
+html = driver.page_source
+soup = BeautifulSoup(html, 'html.parser')
+
+elements_names = soup.find_all('p', class_='D_oy D_ov D_oz D_oC D_oG D_oJ D_oL D_oH D_oP')
 product_names = [element.text for element in elements_names]
 
-elements_prices = driver.find_elements(By.XPATH, f"//p[@class='{class_names[114]}']")
+elements_prices = soup.find_all('p', class_='D_oy D_ov D_oz D_oC D_oF D_oJ D_oM D_oO')
 product_prices = [element.text for element in elements_prices]
 
 # Print product names and prices
 for name, price in zip(product_names, product_prices):
     print(name, price)
-    
+
 # Store product names and prices in a .csv file
 with open('products.csv', 'w', newline='') as file:
     writer = csv.writer(file)
