@@ -3,7 +3,7 @@ from scrapy import Spider, Request
 
 class MySpider(Spider):
     name = 'spider'
-    start_urls = ['https://www.carousell.sg/search/rtx%204090?addRecent=false&canChangeKeyword=true&includeSuggestions=false&searchId=g_kvXn']
+    start_urls = ['https://www.carousell.sg/search/razer%20blade%20laptop?addRecent=true&canChangeKeyword=true&includeSuggestions=true&searchId=pJIBeQ']
 
     def start_requests(self):
         ua = UserAgent()
