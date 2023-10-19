@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Carousell Products</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/styles.css">
+        <script src="" async defer></script>
+    </head>
+    <body>
+        <h2>Carousell Products</h2>
+        <table>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Link</th>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td>{{ product[0] }}</td>
+                <td>{{ product[1] }}</td>
+                <td>{{ product[2] }}</td>
+                <td><a href="{{ product[3] }}">Link</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

@@ -1,7 +1,9 @@
 CREATE DATABASE carousell;
 CREATE TABLE carousell.products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT,
     name VARCHAR(255),
     price DECIMAL(10, 2),
-    date_time DATETIME
+    link VARCHAR(1024),
+    date_time DATETIME,
+    PRIMARY KEY(id)
 );

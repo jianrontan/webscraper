@@ -30,7 +30,7 @@ driver = uc.Chrome(options=options)
 
 url = "https://www.carousell.sg/"
 base_url = "https://www.carousell.sg"
-search_query = "razer blade laptop"
+search_query = "zephyrus g14"
 query_words = search_query.lower().split()
 
 # Go to URL
@@ -123,14 +123,14 @@ with open('products.csv', 'w', newline='', encoding='utf-8') as file:
             writer.writerow([name, price, link])
 
 # Store product names and prices in MySQL database
-for name, price in zip(product_names, product_prices):
+for name, price, link in zip(product_names, product_prices, product_links):
     if price != '':
         price = price.replace('S$', '').replace(',', '')
         price = float(price)
         add_product = ("INSERT INTO products "
-                    "(name, price, date_time) "
-                    "VALUES (%s, %s, NOW())")
-        data_product = (name, price)
+                       "(name, price, link, date_time) "
+                       "VALUES (%s, %s, %s, NOW())")
+        data_product = (name, price, link)
         cursor.execute(add_product, data_product)
 
 connection.commit()
