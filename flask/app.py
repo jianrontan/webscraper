@@ -3,6 +3,10 @@ from flask_session import Session
 import datetime
 from flask_session_mysql import MysqlSession
 import mysql.connector
+import plotly.graph_objects as go
+import plotly.offline as pyo
+import sys
+sys.path.insert(0, 'C:/Users/jianr/OneDrive/Desktop/WebScraper')
 
 app = Flask(__name__)
 app.secret_key = '762fb1fb00d802953dad68bcffe1e574caada6b85ec37139'
@@ -30,8 +34,12 @@ def teardown_request(exception):
         g.db.close()
 
 # index.html
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    g.cursor.execute("SELECT * FROM carousell.products")
-    products = g.cursor.fetchall()
-    return render_template('index.html', products=products)
+    if request.method == 'POST':
+        query = request.form['query']
+        
+        import script7
+        script7.run(query)
+
+    return render_template('index.html')

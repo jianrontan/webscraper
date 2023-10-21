@@ -12,21 +12,11 @@
     </head>
     <body>
         <h2>Carousell Products</h2>
-        <table>
-            <tr>
-                <th>No.</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Link</th>
-            </tr>
-            {% for product in products %}
-            <tr>
-                <td>{{ product[0] }}</td>
-                <td>{{ product[1] }}</td>
-                <td>{{ product[2] }}</td>
-                <td><a href="{{ product[3] }}">Link</a></td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div>
+            <form action="{{ url_for('home') }}" method="post">
+                <input type="text" id="query" name="query" placeholder="Enter a new product">
+                <input type="submit" value="Scrape">
+            </form>
+        </div>
     </body>
 </html>
