@@ -25,6 +25,10 @@ def before_request():
         database='carousell'
     )
     g.cursor = g.db.cursor()
+    g.cursor.execute("SHOW TABLES;")
+    table_names = [table[0] for table in g.cursor.fetchall() if table[0] != "sessions"]
+    table_names = [name.replace("_", " ") for name in table_names]
+    g.table_names = table_names
 
 @app.teardown_request
 def teardown_request(exception):
@@ -36,10 +40,19 @@ def teardown_request(exception):
 # index.html
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    checked_data = []
     if request.method == 'POST':
-        query = request.form['query']
+        query = request.form.get('query')
+        pages = request.form.get('pages')
         
-        import script7
-        script7.run(query)
+        checked_products = [name for name in g.table_names if name in request.form]
+        checked_products = [name.replace(" ", "_") for name in checked_products]
+        for product in checked_products:
+            g.cursor.execute(f"SELECT * FROM carousell.{product};")
+            checked_data.extend(g.cursor.fetchall())
+        
+        if query is not None and pages is not None:
+            import script7
+            script7.run(query, pages)
 
-    return render_template('index.html')
+    return render_template('index.html', table_names=g.table_names, product_data=checked_data)

@@ -9,13 +9,66 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../static/styles.css">
         <script src="" async defer></script>
+        <script>
+            function validateForm() {
+                var query = document.getElementById("query").value;
+                if (query === "sessions") {
+                    alert("Invalid query");
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
     <body>
         <h2>Carousell Products</h2>
         <div>
-            <form action="{{ url_for('home') }}" method="post">
-                <input type="text" id="query" name="query" placeholder="Enter a new product">
+            <form action="{{ url_for('home') }}" method="post" onsubmit="return validateForm()">
+                <label for="query">Enter a product:</label><br>
+                <input type="text" id="query" name="query" placeholder="Search query"><br>
+                <label for="pages">Number of extra pages:</label><br>
+                <input type="number" id="pages" name="pages" value="0" min="0" max="5">
                 <input type="submit" value="Scrape">
+            </form>
+        </div>
+        <div>
+            <h3>Products:</h3>
+            <form action="{{ url_for('home') }}" method="post">
+                <ul>
+                    {% for name in table_names %}
+                        <li>
+                            <label for="{{ name }}">{{ name }}</label>
+                            <input type="checkbox" id="{{ name }}" name="{{ name }}">
+                        </li>
+                    {% endfor %}
+                </ul>
+                <input type="submit" value="Check Products">
+            </form>
+        </div>
+        <div class="products_table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="alignment border">Index</th>
+                        <th class="alignment border">Product</th>
+                        <th class="alignment border">Price</th>
+                        <th class="alignment border">Seller</th>
+                        <th class="alignment border">Link</th>
+                        <th class="alignment border">Date Scraped</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in product_data %}
+                        <tr>
+                            <td class="alignment border">{{ loop.index }}</td>
+                            <td class="alignment border">{{ row[1] }}</td>
+                            <td class="alignment border">{{ row[2] }}</td>
+                            <td class="alignment border">{{ row[3] }}</td>
+                            <td class="alignment border"><a href="{{ row[4] }}">Link</a></td>
+                            <td class="alignment border">{{ row[5] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </form>
         </div>
     </body>

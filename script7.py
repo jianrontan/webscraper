@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -16,7 +17,7 @@ import mysql.connector
 import csv
 import time
 
-def run(query):
+def run(query, pages):
     connection = mysql.connector.connect(
         user='jianrontan',
         password='Jianron101032%&g',
@@ -32,6 +33,7 @@ def run(query):
     url = "https://www.carousell.sg/"
     base_url = "https://www.carousell.sg"
     search_query = query
+    clicks = pages
     query_words = search_query.lower().split()
 
     # Go to URL
@@ -53,12 +55,29 @@ def run(query):
 
     # Check for marketplace
     try:
-        marketplace_paragraph = driver.find_element(By.XPATH, "//p[@title='Marketplace']")
-        marketplace_button = marketplace_paragraph.find_element(By.XPATH, "./..")
-        marketplace_button.click()
-        time.sleep(randint(3,5))
-    except NoSuchElementException:
-        pass
+        # Check if search results element is present
+        search_results = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, f"//h1[contains(text(), 'search results for') and contains(text(), '{search_query}')]")))
+    except TimeoutException:
+        # If search results are not present, try to click the Marketplace button
+        try:
+            marketplace_paragraph = driver.find_element(By.XPATH, "//p[@title='Marketplace']")
+            marketplace_button = marketplace_paragraph.find_element(By.XPATH, "./..")
+            marketplace_button.click()
+            time.sleep(randint(3,5))
+        except NoSuchElementException:
+            print("Marketplace button not found")
+            
+    # Number of pages user wants to load
+    num_clicks = int(clicks)
+    for _ in range(num_clicks):
+        try:
+            # Find button and click it
+            button = driver.find_element(By.XPATH, "//button[text()='Show more results']")
+            button.click()
+            time.sleep(randint(8,10))
+        except NoSuchElementException:
+            print("No more results")
+            break
 
     # Get page source and write to a file
     page_source = driver.page_source
