@@ -1,4 +1,3 @@
-/* Table design */
 .products_table
 {
     padding-bottom: 1rem;
@@ -23,8 +22,8 @@ table
 .alignment {
     text-align: center!important;
 }
-.alignmentLeft {
-    text-align: center!important;
+.modalHover {
+    cursor: pointer;
 }
 table th.border,
 table td.border
@@ -36,4 +35,44 @@ table td.border
 }
 .border {
     border: 1px solid black;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 90%;
+    height: 80%;
+    overflow: auto;
+    background-color: white;
+    pointer-events: all;
+    border-radius: 1rem;
+}
+.modal-content {
+    background-color: white;
+    margin: 5%;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    height: 90%;
+}
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

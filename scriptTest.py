@@ -12,7 +12,6 @@ import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from random import randint
-from scrapycarou.class_names import class_names
 import mysql.connector
 import csv
 import time

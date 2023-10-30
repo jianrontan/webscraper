@@ -12,7 +12,6 @@ import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from random import randint
-from scrapycarou.class_names import class_names
 import mysql.connector
 import csv
 import time
@@ -71,6 +70,7 @@ def run(query, pages):
     num_clicks = int(clicks)
     for _ in range(num_clicks):
         try:
+            time.sleep(randint(3,5))
             # Find button and click it
             button = driver.find_element(By.XPATH, "//button[text()='Show more results']")
             button.click()

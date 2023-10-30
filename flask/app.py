@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, render_template, request, session, g
+from flask import Flask, flash, redirect, render_template, request, session, g, jsonify
 from flask_session import Session
 import datetime
 from flask_session_mysql import MysqlSession
@@ -48,11 +48,30 @@ def home():
         checked_products = [name for name in g.table_names if name in request.form]
         checked_products = [name.replace(" ", "_") for name in checked_products]
         for product in checked_products:
-            g.cursor.execute(f"SELECT * FROM carousell.{product};")
-            checked_data.extend(g.cursor.fetchall())
+            g.cursor.execute(f"""
+                SELECT p.*, '{product}' as table_name
+                FROM carousell.{product} p
+                INNER JOIN (
+                    SELECT name, seller, MAX(date_time) AS max_date_time
+                    FROM carousell.{product}
+                    GROUP BY name, seller
+                ) sub_p ON p.name = sub_p.name AND p.seller = sub_p.seller AND p.date_time = sub_p.max_date_time
+            """)
+            checked_data.extend([(product,) + row for row in g.cursor.fetchall()])
         
         if query is not None and pages is not None:
             import script7
             script7.run(query, pages)
 
     return render_template('index.html', table_names=g.table_names, product_data=checked_data)
+
+@app.route('/product/<table_name>/<name>/<seller>', methods=['GET'])
+def product(table_name, name, seller):
+    # Historical product data
+    g.cursor.execute(f"SELECT * FROM carousell.{table_name} WHERE name = %s AND seller = %s ORDER BY date_time DESC", (name, seller))
+    product_data = g.cursor.fetchall()
+    # Other products from same seller
+    g.cursor.execute(f"SELECT * FROM carousell.{table_name} WHERE seller = %s AND name != %s ORDER BY date_time DESC", (seller, name))
+    other_product_data = g.cursor.fetchall()
+    # Convert to json and return
+    return jsonify({'product_data': product_data, 'other_product_data': other_product_data})

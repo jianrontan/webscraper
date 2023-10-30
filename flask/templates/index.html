@@ -18,9 +18,55 @@
                 }
                 return true;
             }
+            function getProductData(tableName, productName, productSeller) {
+                fetch(`/product/${encodeURIComponent(tableName)}/${encodeURIComponent(productName)}/${encodeURIComponent(productSeller)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Create the product_data table
+                        let table1 = `<h3>Historical Product Data</h3><table class="products_table"><thead><tr><th class="alignment border">Index</th><th class="alignment border">Product</th><th class="alignment border">Price</th><th class="alignment border">Seller</th><th class="alignment border">Link</th><th class="alignment border">Date Scraped</th></tr></thead><tbody>`;
+                        let index = 1;
+                        data.product_data.forEach(row => {
+                            table1 += "<tr>";
+                            table1 += `<td class="alignment border">${index++}</td>`
+                            for (let i = 1; i < row.length; i++) {
+                                if (i === 4) {
+                                    table1 += `<td class="alignment border"><a href="${row[i]}">Link</a></td>`;
+                                } else {
+                                    table1 += `<td class="alignment border">${row[i]}</td>`;
+                                }
+                            }
+                            table1 += "</tr>";
+                        });
+                        table1 += "</tbody></table>";
+                        // Create the other_product_data table if it's not empty
+                        let table2 = "";
+                        if (data.other_product_data.length > 0) {
+                            table2 = `<h3>Seller Other Product Data</h3><table class="products_table"><thead><tr><th class="alignment border">Index</th><th class="alignment border">Product</th><th class="alignment border">Price</th><th class="alignment border">Seller</th><th class="alignment border">Link</th><th class="alignment border">Date Scraped</th></tr></thead><tbody>`;
+                            index = 1;
+                            data.other_product_data.forEach(row => {
+                                table2 += "<tr>";
+                                table2 += `<td class="alignment border">${index++}</td>`;
+                                for (let i = 1; i < row.length; i++) {
+                                    if (i === 4) {
+                                        table2 += `<td class="alignment border"><a href="${row[i]}">Link</a></td>`;
+                                    } else {
+                                        table2 += `<td class="alignment border">${row[i]}</td>`;
+                                    }
+                                }
+                                table2 += "</tr>";
+                            });
+                            table2 += "</tbody></table>";
+                        }
+                        document.getElementById("productData").innerHTML = table1 + table2;
+                        modal.style.display = "block";
+                        document.getElementById('overlay').style.display = "block";
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
         </script>
     </head>
     <body>
+        <div id="overlay" style="display: none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.4); z-index: 2;"></div>
         <h2>Carousell Products</h2>
         <div>
             <form action="{{ url_for('home') }}" method="post" onsubmit="return validateForm()">
@@ -61,15 +107,39 @@
                     {% for row in product_data %}
                         <tr>
                             <td class="alignment border">{{ loop.index }}</td>
-                            <td class="alignment border">{{ row[1] }}</td>
-                            <td class="alignment border">{{ row[2] }}</td>
+                            <td class="alignment border modalHover" onclick="getProductData('{{ row[0] }}', '{{ row[2] }}', '{{ row[4] }}')">{{ row[2] }}</td>
                             <td class="alignment border">{{ row[3] }}</td>
-                            <td class="alignment border"><a href="{{ row[4] }}">Link</a></td>
-                            <td class="alignment border">{{ row[5] }}</td>
+                            <td class="alignment border">{{ row[4] }}</td>
+                            <td class="alignment border"><a href="{{ row[5] }}">Link</a></td>
+                            <td class="alignment border">{{ row[6] }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
-            </form>
+            </table>
         </div>
+        <div id="productModal" class="modal">
+            <div class="modalContent">
+                <span class="close">&times</span>
+                <div id="productData"></div>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("productModal");
+            var span = document.getElementsByClassName("close")[0];
+            var overlay = document.getElementById('overlay');
+            var modalContent = document.querySelector(".modalContent");
+            // When the user clicks on <span> (the X), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+                document.getElementById('overlay').style.display = "none";
+                document.body.style.pointerEvents = "auto";
+            }
+            // When the user clicks on the overlay, close the modal
+            overlay.onclick = function() {
+                modal.style.display = "none";
+                overlay.style.display = "none";
+                document.body.style.pointerEvents = "auto";
+            }
+        </script>
     </body>
 </html>
