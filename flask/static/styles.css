@@ -76,3 +76,15 @@ table td.border
     text-decoration: none;
     cursor: pointer;
 }
+.float {
+    float: left;
+}
+.overflow {
+    overflow: hidden;
+}
+.options {
+    padding-left: 6rem;
+}
+.inputBox {
+    width: 4rem;
+}

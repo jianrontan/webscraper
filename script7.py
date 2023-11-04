@@ -80,9 +80,9 @@ def run(query, pages):
             break
 
     # Get page source and write to a file
-    page_source = driver.page_source
-    with open('page_source.txt', 'w', encoding='utf-8') as f:
-        f.write(page_source)
+    # page_source = driver.page_source
+    # with open('page_source.txt', 'w', encoding='utf-8') as f:
+    #     f.write(page_source)
 
     # Scrape with beautifulsoup
     html = driver.page_source
@@ -155,13 +155,13 @@ def run(query, pages):
             print(name, price, seller)
 
     # Store product names, prices, sellers, and links in a .csv file
-    with open('products.csv', 'w', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow(["Name", "Price", "Seller", "Link"])
+    # with open('products.csv', 'w', newline='', encoding='utf-8') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow(["Name", "Price", "Seller", "Link"])
         
-        for name, price, seller, link in zip(product_names, product_prices, product_sellers, product_links):
-            if price != '':
-                writer.writerow([name, price, seller, link])
+    #     for name, price, seller, link in zip(product_names, product_prices, product_sellers, product_links):
+    #         if price != '':
+    #             writer.writerow([name, price, seller, link])
                 
     # Create the table name
     table_name = search_query.replace(" ", "_")
