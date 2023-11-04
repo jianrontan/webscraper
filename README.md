@@ -17,7 +17,27 @@ The user can enter a search query which will activate the script which will auto
 
 | Screenshots | Description |
 |-|-|
-| <img src="./screenshots/home.png" height="400" width="600" alt="Home"> | Where the user can enter a search query to scrape, pick how many additional pages to scrape, select what search query data to display, and QC the results by picking the range of prices to exclude. |
-| <img src="./screenshots/graph.png" height="400" width="600" alt="Graph"> | Graph of the average price of all results scraped against the date and time. |
-| <img src="./screenshots/table.png" height="400" width="600" alt="Table"> | Table containing the data of last version of each product scraped. |
-| <img src="./screenshots/popup.png" height="400" width="600" alt="Popup"> | After clicking on an individual product listing, this popup will appear, displaying the historical product data, as well as any other products from this search query by the same seller. |
+| <img src="./screenshots/home.png" height="300" width="" alt="Home"> | Where the user can enter a search query to scrape, pick how many additional pages to scrape, select what search query data to display, and QC the results by picking the range of prices to exclude. |
+| <img src="./screenshots/graph.png" height="300" width="960" alt="Graph"> | Graph of the average price of all results scraped against the date and time. |
+| <img src="./screenshots/table.png" height="300" width="960" alt="Table"> | Table containing the data of last version of each product scraped. |
+| <img src="./screenshots/popup.png" height="300" width="960" alt="Popup"> | After clicking on an individual product listing, this popup will appear, displaying the historical product data, as well as any other products from this search query by the same seller. |
+
+### Design Choices:
+<table>
+  <tr>
+    <td>Flask</td>
+    <td>The decision to use flask was influenced by its integrated unit testing feature which allows for quick debugging, its simplicity and active community support.</td>
+  </tr>
+  <tr>
+    <td>MySQL</td>
+    <td>MySQL is a lightweight database management system that allows me to easily visualise all my data and serves the purposes of this project well.</td>
+  </tr>
+  <tr>
+    <td>Selenium</td>
+    <td>Selenium is a browser automation tool that allows me to select elements on the web page and interact with them</td>
+  </tr>
+  <tr>
+    <td>Beautiful Soup</td>
+    <td></td>
+  </tr>
+</table>
