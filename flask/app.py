@@ -74,7 +74,7 @@ def home():
             checked_data.extend([(product,) + row for row in g.cursor.fetchall()])
             
         for product in checked_products:
-            g.cursor.execute(f"SELECT * FROM carousell.{product}")
+            g.cursor.execute(f"SELECT * FROM carousell.{product} WHERE price >= {exclude_below} AND price <= {exclude_above}")
             graph_data.extend([(product,) + row for row in g.cursor.fetchall()])
         session_graph_data = [(row[0], float(row[3]), str(row[6]),) for row in graph_data]
         session['graph_checked_data'] = session_graph_data
