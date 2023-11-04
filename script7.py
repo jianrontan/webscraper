@@ -1,9 +1,4 @@
-from selenium import webdriver
-from selenium.webdriver import Remote, ChromeOptions
-from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
@@ -18,10 +13,10 @@ import time
 
 def run(query, pages):
     connection = mysql.connector.connect(
-        user='jianrontan',
-        password='Jianron101032%&g',
+        user='your_user',
+        password='your_password',
         host='localhost',
-        database='carousell'
+        database='your_database'
     )
     cursor = connection.cursor()
 

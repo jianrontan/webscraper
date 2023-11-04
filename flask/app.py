@@ -1,13 +1,9 @@
-from flask import Flask, flash, redirect, render_template, request, session, g, jsonify
-from flask_session import Session
-import datetime
+from flask import Flask, render_template, request, session, g, jsonify
 from flask_session_mysql import MysqlSession
 from urllib import parse as urllib_parse
 import mysql.connector
-import plotly.graph_objects as go
-import plotly.offline as pyo
 import sys
-sys.path.insert(0, 'C:/Users/jianr/OneDrive/Desktop/WebScraper')
+sys.path.insert(0, 'your/path/here')
 
 def multiple_decode(decodee):
     if decodee is None:
@@ -16,20 +12,20 @@ def multiple_decode(decodee):
     return decoded
 
 app = Flask(__name__)
-app.secret_key = '762fb1fb00d802953dad68bcffe1e574caada6b85ec37139'
+app.secret_key = 'your_secret_key'
 app.config['MYSQL_SESSION_HOST'] = 'localhost'
-app.config['MYSQL_SESSION_USERNAME'] = 'jianrontan'
-app.config['MYSQL_SESSION_PASSWORD'] = 'Jianron101032%&g'
-app.config['MYSQL_SESSION_DATABASE'] = 'carousell'
+app.config['MYSQL_SESSION_USERNAME'] = 'your_user'
+app.config['MYSQL_SESSION_PASSWORD'] = 'your_password'
+app.config['MYSQL_SESSION_DATABASE'] = 'your_database'
 MysqlSession(app)
 
 @app.before_request
 def before_request():
     g.db = mysql.connector.connect(
-        user='jianrontan',
-        password='Jianron101032%&g',
+        user='your_user',
+        password='your_password',
         host='localhost',
-        database='carousell'
+        database='your_database'
     )
     g.cursor = g.db.cursor()
     g.cursor.execute("SHOW TABLES;")
