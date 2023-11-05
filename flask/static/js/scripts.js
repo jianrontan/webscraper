@@ -25,6 +25,7 @@ function sortTable(n, desc = false) {
         rows[i].cells[0].innerHTML = i;
     }
 }
+var sortOrder = 0;
 function priceSorting() {
     var priceHeader = document.getElementById("priceHeader");
     priceHeader.addEventListener("click", function(){
@@ -103,15 +104,13 @@ function getProductData(tableName, productName, productSeller) {
 var modal = document.getElementById("productModal");
 var span = document.getElementsByClassName("close")[0];
 var overlay = document.getElementById('overlay');
-var modalContent = document.querySelector(".modalContent");
-var sortOrder = 0;
 // When the user clicks on <span> (the X), close the modal
 span.onclick = function() {
     modal.style.display = "none";
     document.getElementById('overlay').style.display = "none";
     document.body.style.pointerEvents = "auto";
 };
-// When the user clicks on the overlay, close the modal
+// When the user clicks on the overlay (outside the modal), close the modal
 overlay.onclick = function() {
     modal.style.display = "none";
     overlay.style.display = "none";
