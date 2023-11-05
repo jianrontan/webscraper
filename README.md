@@ -46,8 +46,27 @@ The user can enter a search query which will activate the script which will auto
 | File | Description |
 |-|-|
 | script.py | This script is called for in the web app and accepts 2 arguments, the search query, and the number of extra pages. It connects to your MySQL database, opens the Carousell website on incognito, enters and submits the search query, loads the number of extra pages, and grabs the desired data and stores it in the database. It then closes the MySQL connection. |
-| app.py |  |
-| index.html |  |
-| scripts.js |  |
-| graph.js |  |
-| styles.css |  |
+| app.py | This file is the main flask file which connects to the MySQL database, passes 2 arguments from index.html to script.py to run the script, passes selected products in index.html and the options data to an SQL query to query the database for the desired data, and passes it back to index.html, scripts.js, and graph.js. Also contains function to decode strings. |
+| index.html | This file is the frontend of the project, with the inputs and buttons to control the script, options to control the data displayed, the graph of the average price history, the table containing product data, and the popup. |
+| scripts.js | Contains logic for how to sort the prices, multiple encode arguments (as flask treats %2f as an unescaped slash, [see here](https://github.com/pallets/flask/issues/900)), logic for the popup. |
+| graph.js | Contains logic for the graph, takes the average price for all the products from each scrape and plots it against the time. |
+| styles.css | Contains the styles for index.html |
+
+### Packages to install to try:
+* Selenium
+* Beautiful Soup 4
+* Undetected Chromedriver
+* MySQL
+* Flask
+
+## Conclusion:
+
+### Challenges encountered:
+Initially I found it very difficult to reliably grab data from Carousell's website due to the constantly changing class names. The workaround was using the words in the search query to find elements in the page that contains the words in the search query, this will help find the product titles. However, this by itself is not enough as if the search query was for example, "iphone 15", non product titles with a "15" in them could be selected too. So, I found out that the price element has the same relative position from the product title element for each product, as I was able to use this to my advantage to find both the price, and prevent any non products from being added to the database. This method also has the additional advantage of filtering out any products that were not really related to the search query which carousell likes to add in sometimes. By using the same method to find the price, I also was able to obtain the link and the seller's username.
+
+To prevent detection of my web scraper, I used undetected chromedriver which supposedly does not trigger anti-bot services unlike selenium's webdriver, I used incognito mode, and I also used randomised waits and navigated the Carousell page, entering the search and clicking on the search button, to more closely mimic human behavior.
+
+As mentioned before, flask treats %2f as an unescaped slash, and thus, multiple encoding of strings and multiple decoding of strings are required to create an app route in flask, as product titles which contain a slash breaks the app route, causing it's popup to not be able to open.
+
+### Future Improvements:
+Obviously an improvement is the ability to grab the product details inside each link, e.g. for shoes get the size, wear, for phones get the storage, colour, etc. I would say the speed of the script could be improved too. Perhaps utilizing Carousell's built in filter could be a possibility as well.
