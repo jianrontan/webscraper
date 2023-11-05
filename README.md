@@ -4,6 +4,7 @@ This is a web app which activates an automated script that scrapes data off the 
 ## Features:
 * Framework: [Flask](https://flask.palletsprojects.com/en/3.0.x/)
 * Database: [MySQL](https://dev.mysql.com/doc/)
+* Web Driver: [Undetected Chromedriver](https://pypi.org/project/undetected-chromedriver/2.1.1/)
 * Browser Automation: [Selenium](https://www.selenium.dev/documentation/)
 * HTML Parsing: [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/)
 
@@ -58,6 +59,8 @@ The user can enter a search query which will activate the script which will auto
 * Undetected Chromedriver
 * MySQL
 * Flask
+
+Do remember to add in your MySQL database login details in app.py and script.py.
 
 ## Conclusion:
 
