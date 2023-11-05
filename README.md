@@ -1,5 +1,5 @@
 # Web Scraper
-This is a web app which activates an automated script that scrapes data off the popular e-commerce website Carousell.
+This is a web app which activates an automated script that scrapes data off the popular e-commerce website Carousell, and displays the results.
 
 ## Features:
 * Framework: [Flask](https://flask.palletsprojects.com/en/3.0.x/)
