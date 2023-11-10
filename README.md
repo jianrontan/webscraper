@@ -62,8 +62,8 @@ The user can enter a search query which will activate the script which will auto
 
 Do remember to add in your MySQL database login details in app.py and script.py.
 
-cd flask
-python -m flask run
+* cd flask
+* python -m flask run
 
 ## Conclusion:
 
