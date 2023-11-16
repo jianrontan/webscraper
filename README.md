@@ -9,7 +9,7 @@ This is a web app which activates an automated script that scrapes data off the 
 * HTML Parsing: [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/)
 
 ## Overview:
-This web scraper was built with the purpose of tracking the prices of products on Carousell over time.
+This web scraper was built with the purpose of tracking the prices of products on Carousell over time, personally, I used it to track the prices of Coldplay concert tickets over time.
 
 ### Description:
 The user can enter a search query which will activate the script which will automatically navigate through the Carousell website to grab product titles, prices, sellers, links and the date and time. The user can also choose how many additional pages to scrape by adding a number to the "Number of extra pages" input field. The data collected will then be stored in the MySQL database. The user can then select a product to check and pick a range of prices to exclude (since people on Carousell like to set their price at $0), and a graph depicting the average price of the product over time will be displayed, as well as as table containing the last version of each product scraped. The user can click on a product, and a popup will appear, showing the price history and any other products (from the same search query) by the seller.
